@@ -26,11 +26,26 @@ void print_data(struct node *head){
 
 	struct node *ptr = NULL;
 	ptr = head;
+	
 	while(ptr->link != NULL){
 		printf("%d ", ptr->data);
 		ptr = ptr->link;
 	}
 	printf("\n");
+}
+
+float average(struct node *ptr,int n) {
+    int avg =0;
+    if(ptr == NULL) return avg;
+    
+    avg += ptr->data;
+    while(ptr->link->link != NULL) {
+        ptr = ptr->link;
+        avg += ptr->data;
+    }
+    ptr = ptr->link;
+    avg += ptr->data;
+    return (float)avg/n;
 }
 
 int main() {
@@ -51,7 +66,7 @@ int main() {
 
 	print_data(head);
 	
-	int avg = average(head);
-	printf("%d",avg);
+	float avg = average(head,n);
+	printf("%lf",avg);
 	return 0;
 }
