@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include<stdio.h>
 #include <stdlib.h>
 
 struct node
@@ -26,41 +26,39 @@ void print_data(struct node *head) {
     printf("\n");
 }
 
-void delete_end(struct node *head, struct node **ptr) {
-	*ptr = head;
-	if(head == NULL) printf("List is already empty\n");
-	else if(head->link == NULL) {
-		free(head);
-		head = NULL;
+void delete_at_pos(struct node* head,int pos) {
+	struct node* ptr = head;
+	pos--;
+	while(pos != 1) {
+		ptr = ptr->link;
+		pos--;
 	}
-	else{
-		while((*ptr)->link->link != NULL){
-			(*ptr) = (*ptr)->link;
-		}
-		free((*ptr)->link);
-		(*ptr)->link = NULL;
-	}
+	struct node *temp = ptr->link;
+	ptr->link = temp->link;
+	temp->link = NULL;
+	free(temp);
+	temp = NULL;
 }
 
-int main(int argc, char const *argv[])
-{
+int main() {
 	struct node *head = malloc(sizeof(struct node));
-	head->data = 62;
+	head->data = 65;
 	head->link = NULL;
-	struct node* ptr = head;
+	struct node *ptr = head;
 
-	add_at_end(&ptr,63);
-	add_at_end(&ptr,64);
-	add_at_end(&ptr,65);
-
-	delete_end(head,&ptr);
-
+	add_at_end(&ptr,66);
 	add_at_end(&ptr,67);
-	print_data(head);
-
 	add_at_end(&ptr,68);
 	add_at_end(&ptr,69);
-	delete_end(head,&ptr);
+	print_data(head);
+
+	delete_at_pos(head,3);
+	print_data(head);
+
+	add_at_end(&ptr,70);
+	print_data(head);
+
+	delete_at_pos(head,5);
 	print_data(head);
 
 	return 0;
