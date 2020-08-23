@@ -32,6 +32,7 @@ void delete_end(struct node *head, struct node **ptr) {
 	else if(head->link == NULL) {
 		free(head);
 		head = NULL;
+		*ptr = head;
 	}
 	else{
 		while((*ptr)->link->link != NULL){
