@@ -20,7 +20,7 @@ void print(struct node *ptr){
 	}
 }
 
-void add_to_empty(struct node **head,struct node **ptr,int data){
+void add_to_empty(struct node **head,struct node **tail,int data){
 	if((*head) != NULL){
 		printf("List Is Not Empty: Use add_at_end or add_at_front To Add To A Non-Empty List\n");
 	} else{
@@ -29,23 +29,31 @@ void add_to_empty(struct node **head,struct node **ptr,int data){
 		temp->next = NULL;
 		temp->data = data;
 		(*head) = temp;
-		(*ptr) = (*head);
+		(*tail) = (*head);
 	}
 }
 
-void add_at_end(struct node **ptr, int data){
+void add_at_end(struct node **tail, int data){
 
-	if((*ptr) == NULL){
+	if((*tail) == NULL){
 		printf("List Is Empty: Use add_to_empty To Add To An Empty List\n");
 	} else{
 		struct node *temp = malloc(sizeof(struct node));
-		(*ptr)->next = temp;
-		temp->prev = (*ptr);
+		(*tail)->next = temp;
+		temp->prev = (*tail);
 		temp->data = data;
 		temp->next = NULL;
-		(*ptr) = temp;
+		(*tail) = temp;
 	}
 }
+
+void add_n_at_end(struct node **tail, int data, int n){
+	for ( ; data <= n; ++data)
+	{
+		add_at_end(tail,data);
+	}
+}
+
 
 void add_at_front(struct node **head, int data){
 
@@ -78,43 +86,49 @@ void del_list(struct node **head){
 
 int main(){
 	struct node *head = NULL;
-	struct node *ptr = head;
+	struct node *tail = head;
 
 	print(head);
-	add_at_end(&ptr,67);
+	add_at_end(&tail,67);
 	print(head);
-	add_at_end(&ptr,78);
+	add_at_end(&tail,78);
 
-	add_to_empty(&head,&ptr,55);
+	add_to_empty(&head,&tail,55);
 	print(head);
-	add_at_end(&ptr,56);
+	add_at_end(&tail,56);
 	print(head);
-	add_at_end(&ptr,57);
+	add_at_end(&tail,57);
 	print(head);
 
 	add_at_front(&head,54);
 	print(head);
-	add_at_end(&ptr,58);
+	add_at_end(&tail,58);
 	print(head);
 
-	add_to_empty(&head,&ptr,87);
+	add_to_empty(&head,&tail,87);
 	print(head);
 
 	del_list(&head);
 	print(head);
 	del_list(&head);
 
-	add_to_empty(&head,&ptr,55);
+	add_to_empty(&head,&tail,55);
 	print(head);
-	add_at_end(&ptr,56);
+	add_at_end(&tail,56);
 	print(head);
-	add_at_end(&ptr,57);
+	add_at_end(&tail,57);
 	print(head);
 	add_at_front(&head,54);
 	print(head);
-	add_at_end(&ptr,58);
+	add_at_end(&tail,58);
 	print(head);
-	add_to_empty(&head,&ptr,87);
+	add_to_empty(&head,&tail,87);
+	print(head);
+
+	add_at_end(&tail,59);
+	print(head);
+
+	add_n_at_end(&tail,60,65);
 	print(head);
 
 	return 0;
