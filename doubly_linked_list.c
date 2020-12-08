@@ -131,5 +131,8 @@ int main(){
 	add_n_at_end(&tail,60,65);
 	print(head);
 
+	add_at_end(&tail,66);
+	print(head);
+
 	return 0;
 }
