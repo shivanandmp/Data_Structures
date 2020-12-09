@@ -70,6 +70,27 @@ void add_at_front(struct node **head, int data){
 	}
 }
 
+void add_at_nth_position(struct node *ptr, int n, int data){
+	if(ptr == NULL){
+		printf("List Is Empty: Use add_to_empty To Add To An Empty List\n");
+	} else{
+		struct node *temp = malloc(sizeof(struct node));
+		temp->prev = NULL;
+		temp->data = data;
+		temp->next = NULL;
+		for (int i = 1; i < n-1; ++i)
+		{
+			ptr= ptr->next;
+		}
+		temp->prev = ptr;
+		temp->next = ptr->next;
+		ptr->next = temp;
+		temp->next->prev = temp;
+
+		printf("%d Added At Position %d\n",data,n );
+	}
+}
+
 void del_list(struct node **head){
 	if(*head == NULL){
 		printf("List Couldn't Be Deleted: List Is Already Empty\n");
@@ -132,6 +153,9 @@ int main(){
 	print(head);
 
 	add_at_end(&tail,66);
+	print(head);
+
+	add_at_nth_position(head,4,100);
 	print(head);
 
 	return 0;
