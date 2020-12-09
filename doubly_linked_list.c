@@ -66,14 +66,21 @@ void add_at_front(struct node **head, int data){
 		temp->next = NULL;
 		temp->next = (*head);
 		(*head)->prev = temp;
-		(*head) = temp; 
+		(*head) = temp;
+		printf("Added at the front of the List (position1)\n");
 	}
 }
 
-void add_at_nth_position(struct node *ptr, int n, int data){
-	if(ptr == NULL){
+void add_at_nth_position(struct node **head,struct node **tail, int n, int data){
+	if((*head) == NULL){
 		printf("List Is Empty: Use add_to_empty To Add To An Empty List\n");
 	} else{
+		if(n <= 1){
+			if(n<=0) printf("%d is an invalid position: ",n);
+			add_at_front(head,data);
+			return;
+		}
+		struct node *ptr = (*head);
 		struct node *temp = malloc(sizeof(struct node));
 		temp->prev = NULL;
 		temp->data = data;
@@ -81,6 +88,13 @@ void add_at_nth_position(struct node *ptr, int n, int data){
 		for (int i = 1; i < n-1; ++i)
 		{
 			ptr= ptr->next;
+			if(ptr == (*tail)){
+				(*tail)->next = temp;
+				temp->prev = (*tail);
+				(*tail) = temp;
+				printf("The List Is Shorter Than The Input Position(%d): %d Added At Position %d\n",n,data,i+2 );
+				return;
+			}
 		}
 		temp->prev = ptr;
 		temp->next = ptr->next;
@@ -88,6 +102,28 @@ void add_at_nth_position(struct node *ptr, int n, int data){
 		temp->next->prev = temp;
 
 		printf("%d Added At Position %d\n",data,n );
+	}
+}
+
+void del_first(struct node **head){
+	if(*head == NULL){
+		printf("Node Couldn't Be Deleted: List Is Empty\n");
+	} else{
+		(*head) = (*head)->next;
+		free((*head)->prev);
+		(*head)->prev = NULL;
+		printf("First Node Deleted\n");
+	}
+}
+
+void del_last(struct node **tail){
+	if(*tail == NULL){
+		printf("Node Couldn't Be Deleted: List Is Empty\n");
+	} else{
+		(*tail) = (*tail)->prev;
+		free((*tail)->next);
+		(*tail)->next = NULL;
+		printf("Last Node Deleted\n");
 	}
 }
 
@@ -101,7 +137,40 @@ void del_list(struct node **head){
 			free(*head);
 			*head = temp;
 		}
-		printf("\nList Deleted Succesfully\n\n");
+		printf("List Deleted Succesfully\n\n");
+	}
+}
+
+void del_nth_node(struct node **head,struct node **tail, int n){
+	if((*head) == NULL){
+		printf("List Is Empty: Use add_to_empty To Add To An Empty List\n");
+	} else{
+		if(n <= 1){
+			if(n<=0) printf("%d is an invalid position: ",n);
+			del_first(head);
+			return;
+		}
+		if((*head)->next == NULL){
+			del_list(head);
+			return;
+		}
+		if((*head)->next == *tail && n==2){
+			del_last(tail);
+			return;
+		}
+		struct node *ptr = (*head);
+		for (int i = 1; i < n-1; ++i)
+		{
+			ptr= ptr->next;
+			if(ptr == (*tail) || ptr->next == (*tail)){
+				del_last(tail);
+				return;
+			}
+		}
+		ptr->next = ptr->next->next;
+		free(ptr->next->prev);
+		ptr->next->prev = ptr;
+		printf("Node Deleted At Position %d\n",n );
 	}
 }
 
@@ -155,7 +224,82 @@ int main(){
 	add_at_end(&tail,66);
 	print(head);
 
-	add_at_nth_position(head,4,100);
+	add_at_nth_position(&head,&tail,4,100);
+	print(head);
+
+	add_at_nth_position(&head,&tail,18,100);
+	print(head);
+
+	add_at_nth_position(&head,&tail,48,10);
+	print(head);
+
+	add_at_nth_position(&head,&tail,1,30);
+	print(head);
+
+	add_at_nth_position(&head,&tail,1,10);
+	print(head);
+
+	add_at_nth_position(&head,&tail,0,10);
+	print(head);
+
+	add_at_nth_position(&head,&tail,-5,68);
+	print(head);
+
+	add_at_nth_position(&head,&tail,1,50);
+	print(head);
+
+	del_first(&head);
+	print(head);
+
+	del_last(&tail);
+	print(head);
+
+	del_nth_node(&head,&tail,4);
+	print(head);
+
+	del_nth_node(&head,&tail,1);
+	print(head);
+
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	del_nth_node(&head,&tail,4);
+	print(head);
+
+	del_nth_node(&head,&tail,6);
+	print(head);
+
+	del_nth_node(&head,&tail,6);
+	print(head);
+
+	del_nth_node(&head,&tail,4);
+	print(head);
+
+	del_nth_node(&head,&tail,2);
+	print(head);
+
+	del_nth_node(&head,&tail,1);
+	print(head);
+
+	add_at_end(&tail,66);
+	add_at_nth_position(&head,&tail,4,100);
+	add_at_front(&head,54);
+
+	del_nth_node(&head,&tail,2);
+	print(head);
+	del_nth_node(&head,&tail,2);
+	print(head);
+
+	del_nth_node(&head,&tail,2);
+	print(head);
+	del_nth_node(&head,&tail,2);
 	print(head);
 
 	return 0;
