@@ -174,6 +174,22 @@ void del_nth_node(struct node **head,struct node **tail, int n){
 	}
 }
 
+void rev_list(struct node **head, struct node **tail){
+	struct node *ptr1 = (*head);
+	struct node *ptr2 = (*head)->next;
+	*tail = *head;
+
+	ptr1->next = NULL;
+	ptr1->prev = ptr2;
+	while(ptr2 != NULL){
+		ptr2->prev = ptr2->next;
+		ptr2->next = ptr1;
+		ptr1 = ptr2;
+		ptr2 = ptr2->prev;
+	}
+	(*head)=ptr1;
+}
+
 int main(){
 	struct node *head = NULL;
 	struct node *tail = head;
@@ -300,6 +316,22 @@ int main(){
 	del_nth_node(&head,&tail,2);
 	print(head);
 	del_nth_node(&head,&tail,2);
+	print(head);
+
+	add_to_empty(&head,&tail,67);
+	add_at_end(&tail,68);
+	add_at_end(&tail,69);
+	add_at_end(&tail,70);
+	add_at_end(&tail,71);
+	add_at_end(&tail,72);
+	add_at_end(&tail,73);
+	print(head);
+
+	rev_list(&head,&tail);
+	print(head);
+
+	add_at_end(&tail,66);
+	add_at_front(&head,74);
 	print(head);
 
 	return 0;
